@@ -7,7 +7,7 @@ const {
 } = require("../controllers/userController");
 const usersRouter = express.Router();
 
-usersRouter.post("/", async (request, response) => {
+usersRouter.post("/add-user", async (request, response) => {
   const name = request.body.name;
   const phone = request.body.phone;
   const email = request.body.email;
@@ -66,4 +66,14 @@ usersRouter.post("/login", async (request, response) => {
     result: response_result,
   });
 });
+
+
+
+
+
+
+
+
+
+
 module.exports = usersRouter;

@@ -1,7 +1,7 @@
 require("dotenv").config();
 const MongoClient = require("mongodb").MongoClient;
 const URL = process.env.URI;
-const databaseName = "develop";
+const databaseName = "focus";
 var DbConnection = function () {
   var client = null;
 
@@ -10,7 +10,7 @@ var DbConnection = function () {
       console.log("DB Connect");
       var _client = new MongoClient(URL, { useUnifiedTopology: true });
       await _client.connect();
-      //let _db = await MongoClient.connect(URL);
+      let _db = await MongoClient.connect(URL);
 
       return _client;
     } catch (e) {
@@ -25,7 +25,7 @@ var DbConnection = function () {
       if (client != null) {
         return client.db(databaseName);
       } else {
-        client = await DbConnect();
+        // client = await DbConnect();
 
         return client.db(databaseName);
       }
