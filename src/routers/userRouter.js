@@ -12,8 +12,12 @@ usersRouter.get("/", async (req, res)=>{
 });
 
 //Get oneUser
-usersRouter.get("/:id", async (req, res)=>{
-  res.send("Solo un usuario");
+usersRouter.get("/:name", async (req, res)=>{
+  const {name}=req.params;
+  const db=await getDatabase();
+  const oneUser=await db.collection("users_prueba").findOne({"name":name});
+  res.send(oneUser);
+
 
 });
 
