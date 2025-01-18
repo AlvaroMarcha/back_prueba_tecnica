@@ -17,14 +17,31 @@ usersRouter.get("/:name", async (req, res)=>{
   const db=await getDatabase();
   const oneUser=await db.collection("users_prueba").findOne({"name":name});
   res.send(oneUser);
-
-
 });
 
 //Add user
 usersRouter.post("/add", async (req, res)=>{
-  res.send("Usuario agregado");
+  const {name, phone, email, password} = req.body;
+  const newUser={
+    "name":name,
+    "phone":phone,
+    "email":email,
+    "password":password
+  };
+  const db=await getDatabase();
+  await db.collection("users_prueba").insertOne(newUser);
+  res.status(200).json({message:"Usuario "+newUser.name+" insertado"});
 });
+
+//Delete user
+usersRouter.delete("/delete/:name", async (req, res)=>{
+  const {name}=req.params;
+  const db=await getDatabase();
+  await db.collection("users_prueba").deleteOne({"name":name});
+  res.status(200).json({message:"El usuario "+name+" ha sido eliminado"});
+
+});
+
 
 
 
