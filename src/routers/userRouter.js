@@ -1,76 +1,26 @@
 const express = require("express");
-const {
-  createUser,
-  CreateUserException,
-  loginByEmail,
-  LoginByEmailException,
-} = require("../controllers/userController");
+const { getDatabase } = require("../db");
+
 const usersRouter = express.Router();
 
-usersRouter.post("/add-user", async (request, response) => {
-  const name = request.body.name;
-  const phone = request.body.phone;
-  const email = request.body.email;
-  const password = request.body.password;
+//Get allUsers
+usersRouter.get("/", async (req, res)=>{
+  const db=await getDatabase();
+  const users= await db.collection("users_prueba").find().toArray();
+  res.status(200).json(users);
 
-  let response_user = null;
-  let response_result = null;
-
-  if (!name || !email || !password) {
-    response_result = CreateUserException.incorrectParameters;
-  } else {
-    try {
-      response_user = await createUser(name, phone, email, password);
-
-      response_result = CreateUserException.success;
-    } catch (error) {
-      console.log("errorrrr", error);
-      if (error.code != null) {
-        response_result = error.code;
-      } else {
-        response_result = CreateUserException.unknownError;
-      }
-    }
-  }
-
-  response.json({
-    user: response_user,
-    result: response_result,
-  });
 });
 
-usersRouter.post("/login", async (request, response) => {
-  let email = request.body.email;
-  let password = request.body.password;
+//Get oneUser
+usersRouter.get("/:id", async (req, res)=>{
+  res.send("Solo un usuario");
 
-  let response_user = null;
-  let response_result = null;
-  if (email == null || password == null) {
-    response_result = LoginByEmailException.incorrectParameters;
-  } else {
-    try {
-      response_user = await loginByEmail(email, password);
-
-      response_result = LoginByEmailException.success;
-    } catch (error) {
-      console.log(error.message);
-      if (error.code != null) {
-        response_result = error.code;
-      } else {
-        response_result = LoginByEmailException.unknownError;
-      }
-    }
-  }
-  response.json({
-    user: response_user,
-    result: response_result,
-  });
 });
 
-
-
-
-
+//Add user
+usersRouter.post("/add", async (req, res)=>{
+  res.send("Usuario agregado");
+});
 
 
 

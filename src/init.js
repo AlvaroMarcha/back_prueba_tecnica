@@ -1,15 +1,22 @@
 const express = require("express");
+require("dotenv").config();
 const app = express();
-const router = require("./routers");
-const PORT = process.env.PORT || 3001;
+const dbConnection= require("./db")
+const usersRouter = require("./routers/userRouter");
+const PORT = process.env.PORT || 3000;
+
+
+
+
 
 app.use(express.json());
-app.use(router);
+app.use("/users", usersRouter);
 
-//test
-app.get("/saludo", (req, res)=>{
-  res.send("Hola!");
+
+app.get("/", (req, res)=>{
+  res.send("Principal");
 });
+
 
 
 

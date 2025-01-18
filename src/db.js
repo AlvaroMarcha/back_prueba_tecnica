@@ -2,53 +2,28 @@ require("dotenv").config();
 const MongoClient = require("mongodb").MongoClient;
 const URL = process.env.URI;
 const databaseName = "focus";
-var DbConnection = function () {
-  var client = null;
 
-  async function DbConnect() {
-    try {
-      console.log("DB Connect");
-      var _client = new MongoClient(URL, { useUnifiedTopology: true });
-      await _client.connect();
-      let _db = await MongoClient.connect(URL);
+let client = null;
 
-      return _client;
-    } catch (e) {
-      console.log("ERRROR: ", e);
+const DbConnect = async () => {
 
-      return null;
-    }
+  if (!client) {
+    console.log("Conectando a la base de datos...");
+    client = new MongoClient(URL, { useUnifiedTopology: true });
+    await client.connect();
+    console.log("La conexión a la base de datos se ha establecido");
   }
+  return client;
 
-  async function Get() {
-    try {
-      if (client != null) {
-        return client.db(databaseName);
-      } else {
-        // client = await DbConnect();
-
-        return client.db(databaseName);
-      }
-    } catch (e) {
-      return e;
-    }
-  }
-
-  async function GetClient() {
-    try {
-      if (client != null) {
-        return client;
-      } else {
-        client = await DbConnect();
-
-        return client;
-      }
-    } catch (e) {
-      return e;
-    }
-  }
-
-  return { GetConection: Get, GetClient: GetClient };
 };
 
-module.exports = DbConnection();
+const getDatabase = async () => {
+  const client = await DbConnect();
+  return client.db(databaseName);
+};
+
+module.exports = {
+  DbConnect,
+  getDatabase,
+};
+
