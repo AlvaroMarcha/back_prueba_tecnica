@@ -13,9 +13,9 @@ METODO: GET
 GET
 -----------------------------------------------------------------
 Para conseguir un usuario mediante el nombre:
-URL: http://localhost:3000/users/:name
+URL: http://localhost:3000/users/:id
 METODO: GET
-PARAMETROS ESPERADOS: name
+PARAMETROS ESPERADOS: id
 
 POST
 -----------------------------------------------------------------
@@ -33,16 +33,16 @@ VALORES ESPERADOS (JSON):
 DELETE
 -----------------------------------------------------------------
 Para eliminar un usuario existente:
-URL: http://localhost:3000/users/delete/:name
+URL: http://localhost:3000/users/delete/:id
 METODO: DELETE
-PARAMETROS ESPERADOS: name
+PARAMETROS ESPERADOS: id
 
 PUT
 -----------------------------------------------------------------
 Para actualizar un usuario existente:
-URL: http://localhost:3000/users/update/:nameid
+URL: http://localhost:3000/users/update/:id
 METODO: PUT
-PARAMETROS ESPERADOS: nameid
+PARAMETROS ESPERADOS: id
 VALORES ESPERADOS (JSON):
 {
   "name": "nombre",
