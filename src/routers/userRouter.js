@@ -44,8 +44,8 @@ usersRouter.delete("/delete/:id", async (req, res) => {
 });
 
 //Update user
-usersRouter.put("/update/:nameid", async (req, res) => {
-  const { nameid } = req.params;
+usersRouter.put("/update/:id", async (req, res) => {
+  const { id } = req.params;
   const { name, email, phone, password } = req.body;
   const db = await getDatabase();
   //Set new data
@@ -56,15 +56,10 @@ usersRouter.put("/update/:nameid", async (req, res) => {
     password: password
   };
   await db.collection("users_prueba").updateOne(
-    { name: nameid },
+    { _id: new ObjectId(id) },
     { $set: updateData }
   );
-  res.status(200).json({ message: "Usuario " + nameid + " actualizado" });
+  res.status(200).json({ message: "Usuario " + id + " actualizado" });
 });
-
-
-
-
-
 
 module.exports = usersRouter;
