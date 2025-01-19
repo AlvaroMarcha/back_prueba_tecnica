@@ -1,5 +1,6 @@
 const express = require("express");
 const { getDatabase } = require("../db");
+const { ObjectId }= require("mongodb");
 
 const usersRouter = express.Router();
 
@@ -12,10 +13,11 @@ usersRouter.get("/", async (req, res) => {
 });
 
 //Get oneUser
-usersRouter.get("/:name", async (req, res) => {
-  const { name } = req.params;
+usersRouter.get("/:id", async (req, res) => {
+  const { id } = req.params;
   const db = await getDatabase();
-  const oneUser = await db.collection("users_prueba").findOne({ "name": name });
+  //Import ObjectId to handle ID in mongodb
+  const oneUser = await db.collection("users_prueba").findOne({ _id: new ObjectId(id) });
   res.send(oneUser);
 });
 
@@ -34,12 +36,11 @@ usersRouter.post("/add", async (req, res) => {
 });
 
 //Delete user
-usersRouter.delete("/delete/:name", async (req, res) => {
-  const { name } = req.params;
+usersRouter.delete("/delete/:id", async (req, res) => {
+  const { id } = req.params;
   const db = await getDatabase();
-  await db.collection("users_prueba").deleteOne({ "name": name });
-  res.status(200).json({ message: "El usuario " + name + " ha sido eliminado" });
-
+  await db.collection("users_prueba").deleteOne({ "_id": new ObjectId(id) });
+  res.status(200).json({ message: "El usuario con ID" + id + " ha sido eliminado" });
 });
 
 //Update user
